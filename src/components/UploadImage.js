@@ -42,7 +42,7 @@ export default class UploadImage extends Component {
       isFurnished: "",
       isNegotiable: "",
       adCategory: "",
-      UploadedData: []
+      UploadedData: [],
     };
   }
 
@@ -93,67 +93,54 @@ export default class UploadImage extends Component {
 
   onSubmitForm = (e) => {
     e.preventDefault();
-    // console.log(
-    //   this.state.adTitle +
-    //     this.state.adPrice +
-    //     this.state.isFurnished +
-    //     this.state.isNegotiable +
-    //     this.state.adCategory +
-    //     this.state.fileLinkInServer
 
-    // );
-
-    Axios
-        .post(
-          "http://localhost:3003/api/advert",
-          {
-            title: this.state.adTitle,
-            price: this.state.adPrice,
-            location: this.state.adLocation,
-            image: this.state.fileLinkInServer,
-            description: this.state.adDescription,
-            houseType: this.state.adHousetype,
-            floors: this.state.adFloors,
-            isFurnished: this.state.isFurnished,
-            isNegotiable: this.state.isNegotiable,
-            category: this.state.adCategory
-          },
-          this.state.config
-        )
-        .then((res) => {
-          console.log(res);
-          toast.success("Ad uploaded successfully");
-        })
-        .catch((err) => {
-          console.error(err);
-          toast.error("Ad couldn't be uploaded");
-        });
-
+    Axios.post(
+      "http://localhost:3003/api/advert",
+      {
+        title: this.state.adTitle,
+        price: this.state.adPrice,
+        location: this.state.adLocation,
+        image: this.state.fileLinkInServer,
+        description: this.state.adDescription,
+        houseType: this.state.adHousetype,
+        floors: this.state.adFloors,
+        isFurnished: this.state.isFurnished,
+        isNegotiable: this.state.isNegotiable,
+        category: this.state.adCategory,
+      },
+      this.state.config
+    )
+      .then((res) => {
+        console.log(res);
+        toast.success("Ad uploaded successfully");
+      })
+      .catch((err) => {
+        console.error(err);
+        toast.error("Ad couldn't be uploaded");
+      });
   };
 
   render() {
     return (
       <div className="row">
         <div className="col-md-12">
-          <form>
-            <div className="form-group files">
-              <label>
-                <b>Upload your file</b>
-              </label>
-              <input
-                type="file"
-                className="form-control"
-                name="myFile"
-                onChange={this.onFileChange}
-              />
-            </div>
+            <form>
+              <div className="form-group files">
+                <label>
+                  <b>Upload your Image</b>
+                </label>
+                <input
+                  type="file"
+                  className="form-control"
+                  name="myFile"
+                  onChange={this.onFileChange}
+                />
+              </div>
 
-            <Button color="success" onClick={this.onSubmit} block>
-              Upload Image
-            </Button>
-          </form>
-
-          {/* {this.state.isFileUploaded ? ( */}
+              <Button color="success" onClick={this.onSubmit} block>
+                Upload Image
+              </Button>
+            </form>
             <Form>
               <FormGroup>
                 <Label for="adTitle">Title</Label>
@@ -281,9 +268,6 @@ export default class UploadImage extends Component {
                 Upload
               </Button>
             </Form>
-          {/* ) : (
-            <h1>Upload an image first</h1>
-          )} */}
 
           <div className="form-group">
             <ToastContainer />
