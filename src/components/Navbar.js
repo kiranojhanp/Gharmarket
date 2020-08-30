@@ -70,7 +70,7 @@ export default class NavbarComponent extends Component {
                 </NavItem>
               )}
             </Nav>
-            <NavbarText>Help</NavbarText>
+            <NavbarText><b>User:</b>{localStorage.getItem("username") ? " " +  localStorage.getItem("username"): " Not logged in"}</NavbarText>
           </Collapse>
         </Navbar>
       </div>
