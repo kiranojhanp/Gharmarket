@@ -8,7 +8,7 @@ import Error from "./components/Error";
 import Navbar from "./components/Navbar";
 import Home from "./components/Home";
 import PrivateRoute from "./components/PrivateRoute";
-import Dashboard from "./components/Dashboard";
+import CategoryPage from "./components/Category";
 import AdPage from "./components/AdPage";
 
 import { Route, Switch } from "react-router-dom";
@@ -30,7 +30,7 @@ function App() {
             <Route path="/login" component={Login} />
             <Route path="/register" component={Register} />
             <PrivateRoute path="/post-advert" component={UploadImage} />
-            <PrivateRoute path="/dashboard" component={Dashboard} />
+            <PrivateRoute path="/dashboard" component={CategoryPage} />
             <Route component={Error} />
           </Switch>
         </main>

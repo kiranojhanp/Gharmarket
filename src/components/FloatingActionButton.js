@@ -3,7 +3,7 @@ import { Container, Link } from "react-floating-action-button";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import {
   faPlus,
-  faUser,
+  faTag,
 } from "@fortawesome/free-solid-svg-icons";
 
 export default class FloatingActionButton extends Component {
@@ -21,8 +21,8 @@ export default class FloatingActionButton extends Component {
         {/* <Link href= "#" tooltip="Logout">
           <FontAwesomeIcon icon={faSignOutAlt} />
         </Link> */}
-        <Link href="/dashboard" tooltip="Manage your Ads">
-          <FontAwesomeIcon icon={faUser} />
+        <Link href="/dashboard" tooltip="Add categories">
+          <FontAwesomeIcon icon={faTag} />
         </Link>
         <Link
           tooltip="Post your advertisement!"

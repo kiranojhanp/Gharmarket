@@ -58,8 +58,7 @@ export default class NavbarComponent extends Component {
                     Profile
                   </DropdownToggle>
                   <DropdownMenu right>
-                    <DropdownItem href="/profile">Edit Profile</DropdownItem>
-                    <DropdownItem>My ads</DropdownItem>
+                    <DropdownItem href="/profile">My Profile</DropdownItem>
                     <DropdownItem divider />
                     <DropdownItem onClick={this.logout}>Logout</DropdownItem>
                   </DropdownMenu>
