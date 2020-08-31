@@ -8,6 +8,12 @@ import {
   CardSubtitle,
 } from "reactstrap";
 
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import {
+  faMapMarkedAlt,
+  faInfoCircle,
+} from "@fortawesome/free-solid-svg-icons";
+
 import axios from "axios";
 
 import { Link } from "react-router-dom";
@@ -23,7 +29,7 @@ export default class LatestAds extends Component {
 
   componentDidMount() {
     axios
-      .get("http://localhost:3003/api/advert")
+      .get("http://localhost:3003/api/advert/getAll")
       .then((res) => {
         this.setState({ adverts: res.data });
       })
@@ -61,9 +67,23 @@ export default class LatestAds extends Component {
                     }}
                   />
                   <CardBody>
-                    <CardTitle>{advert.title}</CardTitle>
-                    <CardSubtitle>{advert.location}</CardSubtitle>
-                    <CardText>{advert.description}</CardText>
+                    <CardTitle>
+                      <strong>{(advert.title)}</strong>
+                    </CardTitle>
+                    <CardSubtitle>
+                      <FontAwesomeIcon
+                        icon={faMapMarkedAlt}
+                        color="gray"
+                      ></FontAwesomeIcon>
+                      {"  " + advert.location}
+                    </CardSubtitle>
+                    <CardText>
+                      <FontAwesomeIcon
+                        icon={faInfoCircle}
+                        color="gray"
+                      ></FontAwesomeIcon>
+                      {"  " + advert.description.slice(0, 10) + " ..."}
+                    </CardText>
                     <Link
                       className="btn btn-outline-danger"
                       to={`/home/${advert._id}`}

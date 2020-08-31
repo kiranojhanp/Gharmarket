@@ -1,9 +1,37 @@
 import React, { Component } from "react";
 import Axios from "axios";
-import { Button, Form, FormGroup, Label, Input } from "reactstrap";
+import {
+  UncontrolledCollapse,
+  Button,
+  Form,
+  FormGroup,
+  Label,
+  Input,
+  Jumbotron,
+  Card,
+  CardImg,
+  CardBody,
+  CardTitle,
+  CardSubtitle,
+  CardText,
+} from "reactstrap";
+
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import {
+  faMapMarkedAlt,
+  faInfoCircle,
+  faTimes,
+  faEdit,
+  faCheck,
+} from "@fortawesome/free-solid-svg-icons";
 
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
+import * as jwtJsDecode from "jwt-js-decode";
+import { confirmAlert } from "react-confirm-alert"; // Import
+import "react-confirm-alert/src/react-confirm-alert.css"; // Import css
+
+import LineSeperator from "./LineSeperator";
 
 export default class UploadImage extends Component {
   constructor(props) {
@@ -33,6 +61,7 @@ export default class UploadImage extends Component {
       ],
       floorOptions: options,
       categories: [],
+
       adTitle: "",
       adPrice: "",
       adLocation: "",
@@ -42,7 +71,14 @@ export default class UploadImage extends Component {
       isFurnished: "",
       isNegotiable: "",
       adCategory: "",
+
       UploadedData: [],
+      adverts: [],
+      tokenPayload: "",
+
+      isEdit: false,
+      clickedEditAdvertId: "",
+      advertId: "",
     };
   }
 
@@ -52,6 +88,30 @@ export default class UploadImage extends Component {
         this.setState({ categories: res.data });
       })
       .catch((err) => console.log(err));
+
+    //get jwt token
+    const token = localStorage.getItem("token");
+    //send token to decode
+    let tokenInfo = this.getDecodedAccessToken(token); // decode token
+    let owner = tokenInfo.payload.id; // get token expiration dateTime
+
+    Axios.get("http://localhost:3003/api/advert", {
+      params: { ownerId: owner },
+    })
+      .then((res) => {
+        this.setState({
+          adverts: res.data,
+        });
+      })
+      .catch((err) => console.log(err));
+  }
+
+  getDecodedAccessToken(token) {
+    try {
+      return jwtJsDecode.jwtDecode(token);
+    } catch (Error) {
+      return null;
+    }
   }
 
   onSubmit = (e) => {
@@ -69,6 +129,8 @@ export default class UploadImage extends Component {
 
           isFileUploaded: true,
         });
+
+        console.log(this.state.fileLinkInServer);
       })
       .catch((err) => {
         console.error(err);
@@ -83,6 +145,78 @@ export default class UploadImage extends Component {
     });
   };
 
+  onSubmitForm = (e) => {
+    e.preventDefault();
+
+    if (this.state.isEdit) {
+      Axios.put(
+        `http://localhost:3003/api/advert/${this.state.advertId}`,
+        {
+          title: this.state.adTitle,
+          price: this.state.adPrice,
+          location: this.state.adLocation,
+          image: this.state.fileLinkInServer,
+          description: this.state.adDescription,
+          houseType: this.state.adHousetype,
+          floors: this.state.adFloors,
+          isFurnished: this.state.isFurnished,
+          isNegotiable: this.state.isNegotiable,
+          category: this.state.adCategory,
+        },
+        this.state.config
+      )
+        .then((res) => {
+          console.log(res);
+          toast.success("Ad updated successfully");
+        })
+        .catch((err) => {
+          console.error(err);
+          toast.error("Ad couldn't be updated");
+        });
+    } else {
+      Axios.post(
+        "http://localhost:3003/api/advert",
+        {
+          title: this.state.adTitle,
+          price: this.state.adPrice,
+          location: this.state.adLocation,
+          image: this.state.fileLinkInServer,
+          description: this.state.adDescription,
+          houseType: this.state.adHousetype,
+          floors: this.state.adFloors,
+          isFurnished: this.state.isFurnished,
+          isNegotiable: this.state.isNegotiable,
+          category: this.state.adCategory,
+        },
+        this.state.config
+      )
+        .then((res) => {
+          console.log(res);
+          toast.success("Ad uploaded successfully");
+          // this.setState({adverts: res.data})
+        })
+        .catch((err) => {
+          console.error(err);
+          toast.error("Ad couldn't be uploaded");
+        });
+    }
+  };
+
+  deleteData = (advertId) => {
+    Axios.delete(
+      `http://localhost:3003/api/advert/${advertId}`,
+      this.state.config
+    )
+      .then((res) => {
+        console.log(res.data);
+        toast.success("Ad deleted successfully");
+      })
+      .catch((err) => {
+        console.error(err);
+        toast.error("Ad couldn't be deleted");
+      });
+  };
+
   handleChange = (e) => {
     const { name, value } = e.target;
 
@@ -91,39 +225,107 @@ export default class UploadImage extends Component {
     });
   };
 
-  onSubmitForm = (e) => {
+  handleEdit = (e) => {
+    e.preventDefault();
+    const advertId = e.target.value;
+
+    this.setState({
+      adTitle: this.state.adverts.find((advert) => {
+        return advert._id === advertId;
+      }).title,
+      adPrice: this.state.adverts.find((advert) => {
+        return advert._id === advertId;
+      }).price,
+      adLocation: this.state.adverts.find((advert) => {
+        return advert._id === advertId;
+      }).location,
+      adDescription: this.state.adverts.find((advert) => {
+        return advert._id === advertId;
+      }).description,
+      adHousetype: this.state.adverts.find((advert) => {
+        return advert._id === advertId;
+      }).houseType,
+      adFloors: this.state.adverts.find((advert) => {
+        return advert._id === advertId;
+      }).floors,
+      isFurnished: this.state.adverts.find((advert) => {
+        return advert._id === advertId;
+      }).isFurnished,
+      isNegotiable: this.state.adverts.find((advert) => {
+        return advert._id === advertId;
+      }).isNegotiable,
+      adCategory: this.state.adverts.find((advert) => {
+        return advert._id === advertId;
+      }).category,
+
+      isEdit: true,
+      advertId: advertId,
+    });
+  };
+
+  handleDelete = (e) => {
     e.preventDefault();
 
-    Axios.post(
-      "http://localhost:3003/api/advert",
-      {
-        title: this.state.adTitle,
-        price: this.state.adPrice,
-        location: this.state.adLocation,
-        image: this.state.fileLinkInServer,
-        description: this.state.adDescription,
-        houseType: this.state.adHousetype,
-        floors: this.state.adFloors,
-        isFurnished: this.state.isFurnished,
-        isNegotiable: this.state.isNegotiable,
-        category: this.state.adCategory,
+    const advertId = e.target.value;
+    console.log(advertId + " Deleted");
+
+    confirmAlert({
+      customUI: ({ onClose }) => {
+        return (
+          <div className="custom-ui">
+            <h1>Are you sure?</h1>
+            <p>You want to delete this file?</p>
+            <Button
+              color="success"
+              outline
+              onClick={() => {
+                this.deleteData(advertId);
+                onClose();
+              }}
+            >
+              <FontAwesomeIcon icon={faCheck} /> Yes
+            </Button>
+
+            <span style={{ margin: "1.2rem" }}></span>
+
+            <Button color="danger" outline onClick={onClose}>
+              <FontAwesomeIcon icon={faTimes} /> No
+            </Button>
+          </div>
+        );
       },
-      this.state.config
-    )
-      .then((res) => {
-        console.log(res);
-        toast.success("Ad uploaded successfully");
-      })
-      .catch((err) => {
-        console.error(err);
-        toast.error("Ad couldn't be uploaded");
-      });
+    });
+
+    // Axios.delete(
+    //   `http://localhost:3003/api/advert/${this.state.advertId}`,
+    //   this.state.config
+    // )
+    //   .then((res) => {
+    //     console.log(res.data);
+    //     const filterAdverts = this.state.adverts.filter((advert) => {
+    //       return advert._id !== advertId;
+    //     });
+    //     this.setState({
+    //       categories: filterAdverts,
+    //     });
+    //   })
+    //   .catch((err) => console.log(err));
   };
 
   render() {
     return (
       <div className="row">
         <div className="col-md-12">
+          <Button
+            outline
+            block
+            color="danger"
+            id="toggler"
+            style={{ marginBottom: "1rem", marginTop: "2rem" }}
+          >
+            Upload an advert
+          </Button>
+          <UncontrolledCollapse toggler="#toggler">
             <form>
               <div className="form-group files">
                 <label>
@@ -137,7 +339,7 @@ export default class UploadImage extends Component {
                 />
               </div>
 
-              <Button color="success" onClick={this.onSubmit} block>
+              <Button outline color="success" onClick={this.onSubmit} block>
                 Upload Image
               </Button>
             </form>
@@ -264,11 +466,80 @@ export default class UploadImage extends Component {
                 </Input>
               </FormGroup>
 
-              <Button color="success" onClick={this.onSubmitForm} block>
+              <Button outline color="success" onClick={this.onSubmitForm} block>
                 Upload
               </Button>
             </Form>
+          </UncontrolledCollapse>
 
+          <div style={{ marginTop: "2rem" }}></div>
+          <LineSeperator />
+          <Jumbotron>
+            <h2>My Ads</h2>
+            <div className="modal-body row">
+              {this.state.adverts.map((advert) => {
+                return (
+                  <div className="col-md-4" key={advert._id}>
+                    <Card style={{ marginBottom: "30px" }}>
+                      <CardImg
+                        top
+                        width="100%"
+                        src={
+                          advert.image
+                            ? advert.image
+                            : "http://localhost:3003/uploads/myFile-1594698945650.png"
+                        }
+                        alt="Card image cap"
+                        style={{
+                          width: "100%",
+                          height: "15vw",
+                          objectFit: "cover",
+                        }}
+                      />
+                      <CardBody>
+                        <CardTitle>
+                          <strong>{advert.title}</strong>
+                        </CardTitle>
+                        <CardSubtitle>
+                          <FontAwesomeIcon
+                            icon={faMapMarkedAlt}
+                            color="gray"
+                          ></FontAwesomeIcon>
+                          {"  " + advert.location}
+                        </CardSubtitle>
+                        <CardText>
+                          <FontAwesomeIcon
+                            icon={faInfoCircle}
+                            color="gray"
+                          ></FontAwesomeIcon>
+                          {"  " + advert.description.slice(0, 15) + " ..."}
+                        </CardText>
+                        <hr />
+                        <Button
+                          outline
+                          color="primary"
+                          style={{ marginLeft: "2%" }}
+                          value={advert._id}
+                          onClick={this.handleEdit}
+                        >
+                          <FontAwesomeIcon icon={faEdit} /> {"  "}Edit
+                        </Button>
+                        <span style={{ margin: "1.2rem" }}></span>
+                        <Button
+                          outline
+                          color="danger"
+                          value={advert._id}
+                          onClick={this.handleDelete}
+                        >
+                          <FontAwesomeIcon icon={faTimes} /> {"  "}Delete
+                        </Button>
+                      </CardBody>
+                    </Card>
+                  </div>
+                );
+              })}
+            </div>
+          </Jumbotron>
           <div className="form-group">
             <ToastContainer />
           </div>
