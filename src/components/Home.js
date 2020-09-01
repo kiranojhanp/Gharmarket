@@ -9,16 +9,16 @@ import FloatingActionButton from "./FloatingActionButton";
 export default function Home() {
   return (
     <>
-    <Jumbotron>
-      <SearchArea />
-    </Jumbotron>
-    <Jumbotron>
+      <Jumbotron>
+        <SearchArea />
+      </Jumbotron>
+      <Jumbotron>
         <ShowCategories />
-    </Jumbotron>
-    <Jumbotron>
+      </Jumbotron>
+      <Jumbotron>
         <LatestAds />
-    </Jumbotron>
-    <FloatingActionButton />
+      </Jumbotron>
+      <FloatingActionButton />
     </>
   );
 }

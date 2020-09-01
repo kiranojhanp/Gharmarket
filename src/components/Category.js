@@ -125,7 +125,7 @@ export default class Category extends Component {
     return (
       <div>
         
-        <UncontrolledAlert color="info"><FontAwesomeIcon icon={faInfoCircle} /> <span style={{margin: "0.2rem"}}></span>
+        <UncontrolledAlert style={{marginTop: "1rem"}} color="info"><FontAwesomeIcon icon={faInfoCircle} /> <span style={{margin: "0.2rem"}}></span>
           Category is similar to tags. This can be used to filter the
           searches later. Everybody can add categories.
         </UncontrolledAlert>
