@@ -6,7 +6,7 @@ export default function Error() {
       <div className="row">
         <div className="col-lg-1"></div>
         <div id="hello" className="col-lg-10">
-          <h1 style={{"text-align": "center"}}> Error 404: Not found</h1>
+          <h1 style={{"textAlign": "center"}}> Error 404: Not found</h1>
         </div>
         <div className="col-lg-1"></div>
       </div>
