@@ -1,68 +1,66 @@
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
+# Gharmarket
+Gharmarket is an online house selling and buying platform. It allows seller to post their house listing and buyer to check the ads, comment on the ads, etc.
 
-## Available Scripts
 
-In the project directory, you can run:
+## Pre-requisites
+All the dependencies is under `package.json` file. To install all dependencies you must install `Node.js' and 'npm`.
 
-### `npm start`
+[Node.js installation](https://nodejs.org/en/) provides a practical guide for installation of Node.js.
 
-Runs the app in the development mode.<br />
-Open [http://localhost:3000](http://localhost:3000) to view it in the browser.
+[npm installation](https://docs.npmjs.com/cli/install) provides a practical guide for installation of npm.
 
-The page will reload if you make edits.<br />
-You will also see any lint errors in the console.
+Once `Node.js` and `npm` is installed, clone this repository and inside the cloned folder type this:
 
-### `npm test`
+```
+npm install package.json
+```
 
-Launches the test runner in the interactive watch mode.<br />
-See the section about [running tests](https://facebook.github.io/create-react-app/docs/running-tests) for more information.
+then the system is ready to be run. It can be run using:
 
-### `npm run build`
+```
+npm start
+```
 
-Builds the app for production to the `build` folder.<br />
-It correctly bundles React in production mode and optimizes the build for the best performance.
+## Screenshots of the application
 
-The build is minified and the filenames include the hashes.<br />
-Your app is ready to be deployed!
+### Login and register page
 
-See the section about [deployment](https://facebook.github.io/create-react-app/docs/deployment) for more information.
+![alt text](https://i.imgur.com/RProJFi.jpg)
 
-### `npm run eject`
+![alt text](https://i.imgur.com/UuA0WPu.jpg)
 
-**Note: this is a one-way operation. Once you `eject`, you can’t go back!**
+### Homepage
 
-If you aren’t satisfied with the build tool and configuration choices, you can `eject` at any time. This command will remove the single build dependency from your project.
+![alt text](https://i.imgur.com/JcefeRn.jpg)
+![alt text](https://i.imgur.com/AFn4pii.jpg)
+![alt text](https://i.imgur.com/QT4OTad.jpg)
 
-Instead, it will copy all the configuration files and the transitive dependencies (webpack, Babel, ESLint, etc) right into your project so you have full control over them. All of the commands except `eject` will still work, but they will point to the copied scripts so you can tweak them. At this point you’re on your own.
+### Advertisement
 
-You don’t have to ever use `eject`. The curated feature set is suitable for small and middle deployments, and you shouldn’t feel obligated to use this feature. However we understand that this tool wouldn’t be useful if you couldn’t customize it when you are ready for it.
+![alt text](https://i.imgur.com/T2e6vxt.jpg)
 
-## Learn More
 
-You can learn more in the [Create React App documentation](https://facebook.github.io/create-react-app/docs/getting-started).
+### Add comment
 
-To learn React, check out the [React documentation](https://reactjs.org/).
+![alt text](https://i.imgur.com/rTxMbMF.jpg)
 
-### Code Splitting
 
-This section has moved here: https://facebook.github.io/create-react-app/docs/code-splitting
+### Post advertisement
 
-### Analyzing the Bundle Size
+![alt text](https://i.imgur.com/Lb6RwUJ.jpg)
 
-This section has moved here: https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size
+### My advertisement
 
-### Making a Progressive Web App
+![alt text](https://i.imgur.com/EkKb63o.jpg)
 
-This section has moved here: https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app
+## Edit advertisement
 
-### Advanced Configuration
+![alt text](https://i.imgur.com/OJbBTx2.jpg)
 
-This section has moved here: https://facebook.github.io/create-react-app/docs/advanced-configuration
+### Delete advertisement
 
-### Deployment
+![alt text](https://i.imgur.com/ewWCLYG.jpg)
 
-This section has moved here: https://facebook.github.io/create-react-app/docs/deployment
 
-### `npm run build` fails to minify
 
-This section has moved here: https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify
+
