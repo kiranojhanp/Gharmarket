@@ -308,26 +308,29 @@ export default class UploadImage extends Component {
             id="toggler"
             style={{ marginBottom: "1rem", marginTop: "2rem" }}
           >
-            Upload an advert
+            Expand the form
           </Button>
           <UncontrolledCollapse toggler="#toggler">
-            <form>
-              <div className="form-group files">
-                <label>
-                  <b>Upload your Image</b>
-                </label>
-                <input
-                  type="file"
-                  className="form-control"
-                  name="myFile"
-                  onChange={this.onFileChange}
-                />
-              </div>
+            {!this.state.isEdit ? (
+              <form>
+                <div className="form-group files">
+                  <label>
+                    <b>Upload your Image</b>
+                  </label>
+                  <input
+                    type="file"
+                    className="form-control"
+                    name="myFile"
+                    onChange={this.onFileChange}
+                  />
+                </div>
 
-              <Button outline color="success" onClick={this.onSubmit} block>
-                Upload Image
-              </Button>
-            </form>
+                <Button outline color="success" onClick={this.onSubmit} block>
+                  Upload Image
+                </Button>
+              </form>
+            ) : null}
+
             <Form>
               <FormGroup>
                 <Label for="adTitle">Title</Label>
