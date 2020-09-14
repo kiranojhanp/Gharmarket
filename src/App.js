@@ -14,6 +14,7 @@ import AdPage from "./components/AdPage";
 import { Route, Switch } from "react-router-dom";
 import UploadImage from "./components/UploadImage";
 import AllAds from "./components/AllAds";
+import Profile from "./components/Profile";
 
 
 function App() {
@@ -29,6 +30,7 @@ function App() {
             <Route path="/home/:advertid" component={AdPage} />
             <Route path="/login" component={Login} />
             <Route path="/register" component={Register} />
+            <Route path="/profile" component={Profile} />
             <PrivateRoute path="/post-advert" component={UploadImage} />
             <PrivateRoute path="/dashboard" component={CategoryPage} />
             <Route component={Error} />

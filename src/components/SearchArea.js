@@ -1,6 +1,5 @@
 import React, { Component } from "react";
-import { Form, FormGroup, Input } from "reactstrap";
-import { Link } from "react-router-dom";
+import { Form, FormGroup, Input, Button } from "reactstrap";
 
 export default class SearchArea extends Component {
   constructor(props) {
@@ -20,9 +19,10 @@ export default class SearchArea extends Component {
   };
 
   render() {
+    const val = this.state.searchLocation;
     return (
       <div>
-        <Form style= {{marginTop: "2%"}}>
+        <Form style={{ marginTop: "2%" }}>
           <FormGroup>
             <Input
               type="text"
@@ -30,16 +30,17 @@ export default class SearchArea extends Component {
               placeholder="Enter location you want to buy house..."
               value={this.state.searchLocation}
               onChange={this.handleChange}
-              style= {{height: "60px"}} />
+            />
           </FormGroup>
           <FormGroup>
-            <Link
-              type="button"
-              className="btn btn-outline-danger btn-lg btn-block"
-              to={`/home/${this.state.searchLocation}`}
+            <Button
+              color="danger"
+              block
+              outline
+              onClick={this.props.action.bind(this, val)}
             >
               Search
-            </Link>
+            </Button>
           </FormGroup>
         </Form>
       </div>

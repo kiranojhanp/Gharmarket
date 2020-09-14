@@ -295,21 +295,6 @@ export default class UploadImage extends Component {
         );
       },
     });
-
-    // Axios.delete(
-    //   `http://localhost:3003/api/advert/${this.state.advertId}`,
-    //   this.state.config
-    // )
-    //   .then((res) => {
-    //     console.log(res.data);
-    //     const filterAdverts = this.state.adverts.filter((advert) => {
-    //       return advert._id !== advertId;
-    //     });
-    //     this.setState({
-    //       categories: filterAdverts,
-    //     });
-    //   })
-    //   .catch((err) => console.log(err));
   };
 
   render() {

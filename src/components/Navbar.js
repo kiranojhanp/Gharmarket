@@ -11,8 +11,9 @@ import {
   DropdownToggle,
   DropdownMenu,
   DropdownItem,
-  NavbarText,
 } from "reactstrap";
+
+import * as jwtJsDecode from "jwt-js-decode";
 
 export default class NavbarComponent extends Component {
   constructor(props) {
@@ -21,6 +22,7 @@ export default class NavbarComponent extends Component {
     this.state = {
       isLoggedIn: false,
       isOpen: false,
+      username: "",
     };
 
     this.componentDidMount = this.componentDidMount.bind(this);
@@ -28,15 +30,28 @@ export default class NavbarComponent extends Component {
     this.toggle = this.toggle.bind(this);
   }
 
+  getDecodedAccessToken(token) {
+    try {
+      return jwtJsDecode.jwtDecode(token);
+    } catch (Error) {
+      return null;
+    }
+  }
+
   componentDidMount() {
-    if (localStorage.getItem("token")) {
-      this.setState({ isLoggedIn: true });
+    //get jwt token
+    const token = localStorage.getItem("token");
+
+    if (token) {
+      let tokenInfo = this.getDecodedAccessToken(token); // decode token
+      let owner = tokenInfo.payload.username; // get token role
+      
+      this.setState({ isLoggedIn: true, username: owner });
     }
   }
 
   logout() {
     localStorage.removeItem("token");
-    localStorage.removeItem("username");
     this.setState({ isLoggedIn: false });
   }
 
@@ -64,12 +79,22 @@ export default class NavbarComponent extends Component {
                   </DropdownMenu>
                 </UncontrolledDropdown>
               ) : (
-                <NavItem>
-                  <NavLink href="login">Login</NavLink>
-                </NavItem>
+                <>
+                  <NavItem>
+                    <NavLink href="login">Login</NavLink>
+                  </NavItem>
+                  <NavItem>
+                    <NavLink href="register">Register</NavLink>
+                  </NavItem>
+                </>
               )}
             </Nav>
-            <NavbarText><b>User:</b>{localStorage.getItem("username") ? " " +  localStorage.getItem("username"): " Not logged in"}</NavbarText>
+            {/* <NavbarText>
+              <b>User:</b>
+              {this.state.username
+                ? " " + localStorage.getItem("username")
+                : " Not logged in"}
+            </NavbarText> */}
           </Collapse>
         </Navbar>
       </div>

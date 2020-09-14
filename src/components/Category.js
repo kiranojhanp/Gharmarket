@@ -8,9 +8,9 @@ import {
   UncontrolledAlert,
 } from "reactstrap";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import {
-  faInfoCircle,
-} from "@fortawesome/free-solid-svg-icons";
+import { faInfoCircle } from "@fortawesome/free-solid-svg-icons";
+
+import * as jwtJsDecode from "jwt-js-decode";
 
 import axios from "axios";
 
@@ -26,10 +26,28 @@ export default class Category extends Component {
       config: {
         headers: { Authorization: "Bearer " + localStorage.getItem("token") },
       },
+      role: "",
     };
   }
 
+  getDecodedAccessToken(token) {
+    try {
+      return jwtJsDecode.jwtDecode(token);
+    } catch (Error) {
+      return null;
+    }
+  }
+
   componentDidMount() {
+    //get jwt token
+    const token = localStorage.getItem("token");
+    //send token to decode
+    let tokenInfo = this.getDecodedAccessToken(token); // decode token
+    let owner = tokenInfo.payload.role; // get token role
+    this.setState({
+      role: owner,
+    });
+
     axios
       .get("http://localhost:3003/api/category")
       .then((res) => {
@@ -122,50 +140,75 @@ export default class Category extends Component {
   };
 
   render() {
+    let isAdmin;
+    let utype = this.state.role;
+    if (utype === "admin") {
+      isAdmin = true;
+    } else {
+      isAdmin = false;
+    }
+
     return (
       <div>
-        
-        <UncontrolledAlert style={{marginTop: "1rem"}} color="info"><FontAwesomeIcon icon={faInfoCircle} /> <span style={{margin: "0.2rem"}}></span>
-          Category is similar to tags. This can be used to filter the
-          searches later. Everybody can add categories.
-        </UncontrolledAlert>
+        {isAdmin ? (
+          <div>
+            <UncontrolledAlert style={{ marginTop: "1rem" }} color="info">
+              <FontAwesomeIcon icon={faInfoCircle} />{" "}
+              <span style={{ margin: "0.2rem" }}></span>
+              Category is similar to tags. This can be used to filter the
+              searches later.
+            </UncontrolledAlert>
 
-        <Form onSubmit={this.handleSubmit}>
-          <Input
-            type="text"
-            placeholder="Add category..."
-            value={this.state.categoryName}
-            onChange={this.handleChange}
-          />
-          {this.state.isEdit ? (
-            <Button color="warning" outline size="sm" className="mt-4" block>
-              Update
-            </Button>
-          ) : (
-            <Button color="danger" outline size="sm" className="mt-4" block>
-              Add
-            </Button>
-          )}
-        </Form>
-        <hr />
-
-        <ListGroup>
-          {this.state.categories.map((category) => {
-            return (
-              <ListGroupItem
-                key={category._id}
-                onClick={() => this.editCategory(category._id)}
-                style={{ cursor: "pointer" }}
-              >
-                <span>{category.name}</span>
+            <Form onSubmit={this.handleSubmit}>
+              <Input
+                type="text"
+                placeholder="Add category..."
+                value={this.state.categoryName}
+                onChange={this.handleChange}
+              />
+              {this.state.isEdit ? (
                 <Button
-                  close
-                  onClick={() => this.deleteCategory(category._id)}
-                />
-              </ListGroupItem>
-            );
-          })}
-        </ListGroup>
+                  color="warning"
+                  outline
+                  size="sm"
+                  className="mt-4"
+                  block
+                >
+                  Update
+                </Button>
+              ) : (
+                <Button color="danger" outline size="sm" className="mt-4" block>
+                  Add
+                </Button>
+              )}
+            </Form>
+            <hr />
+
+            <ListGroup>
+              {this.state.categories.map((category) => {
+                return (
+                  <ListGroupItem
+                    key={category._id}
+                    onClick={() => this.editCategory(category._id)}
+                    style={{ cursor: "pointer" }}
+                  >
+                    <span>{category.name}</span>
+                    <Button
+                      close
+                      onClick={() => this.deleteCategory(category._id)}
+                    />
+                  </ListGroupItem>
+                );
+              })}
+            </ListGroup>
+          </div>
+        ) : (
+          <UncontrolledAlert style={{ marginTop: "1rem" }} color="info">
+            <FontAwesomeIcon icon={faInfoCircle} />{" "}
+            <span style={{ margin: "0.2rem" }}></span>
+            Category can only be added by users with admin privilage. Please login with admin id to continue.
+          </UncontrolledAlert>
+        )}
       </div>
     );
   }
