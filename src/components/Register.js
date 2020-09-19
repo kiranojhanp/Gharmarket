@@ -36,6 +36,7 @@ export default class Register extends Component {
       emailerr: "",
       fnameErr: "",
       lnameErr: "",
+      isRegistered: false
     };
   }
 
@@ -93,15 +94,9 @@ export default class Register extends Component {
         .post("http://localhost:3003/api/users/register", this.state)
         .then((res) => {
           console.log(res);
-          toast.success("🦄 Registration success!", {
-            position: "top-right",
-            autoClose: 5000,
-            hideProgressBar: false,
-            closeOnClick: true,
-            pauseOnHover: true,
-            draggable: true,
-            progress: undefined,
-          });
+
+          toast.success("Successfully deleted");
+
           this.setState({ isRegistered: true });
         })
         .catch((err) => {
@@ -115,6 +110,7 @@ export default class Register extends Component {
   };
 
   render() {
+    
     if (this.state.isRegistered) {
       return <Redirect to="/" />;
     }
@@ -125,6 +121,9 @@ export default class Register extends Component {
 
     return (
       <div>
+        <div className="form-group">
+          <ToastContainer />
+        </div>
         <h1>Register</h1>
         <Form onSubmit={this.handleSubmit}>
           <FormGroup>
@@ -138,7 +137,8 @@ export default class Register extends Component {
             />
             {this.state.fnameErr ? (
               <span style={dangerspan}>{this.state.fnameErr}</span>
-            ) : null} <br />
+            ) : null}{" "}
+            <br />
             <Label for="lastName">Lastname</Label>
             <Input
               type="text"
@@ -149,7 +149,8 @@ export default class Register extends Component {
             />
             {this.state.lnameErr ? (
               <span style={dangerspan}>{this.state.lnameErr}</span>
-            ) : null} <br />
+            ) : null}{" "}
+            <br />
             <Label for="email">Email</Label>
             <Input
               type="email"
@@ -160,7 +161,8 @@ export default class Register extends Component {
             />
             {this.state.emailerr ? (
               <span style={dangerspan}>{this.state.emailerr}</span>
-            ) : null} <br />
+            ) : null}{" "}
+            <br />
             <Label for="username">Username</Label>
             <Input
               type="text"
@@ -168,10 +170,11 @@ export default class Register extends Component {
               id="username"
               value={this.state.username}
               onChange={this.handleChange}
-            /> 
+            />
             {this.state.unameErr ? (
               <span style={dangerspan}>{this.state.unameErr}</span>
-            ) : null} <br />
+            ) : null}{" "}
+            <br />
             <Label for="password">Password</Label>
             <Input
               type="password"
@@ -182,7 +185,8 @@ export default class Register extends Component {
             />
             {this.state.pwErr ? (
               <span style={dangerspan}>{this.state.pwErr}</span>
-            ) : null} <br />
+            ) : null}{" "}
+            <br />
           </FormGroup>
           <Button color="danger" onClick={this.handleSubmit} block>
             Register

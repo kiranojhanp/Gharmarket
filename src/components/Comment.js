@@ -1,6 +1,7 @@
 import React, { Component } from "react";
 import Axios from "axios";
 import { toast, ToastContainer } from "react-toastify";
+
 import moment from "moment";
 
 export default class Comment extends Component {
@@ -12,8 +13,7 @@ export default class Comment extends Component {
         headers: { Authorization: "Bearer " + localStorage.getItem("token") },
       },
       comment: "",
-      comments: this.props.comments
-
+      comments: this.props.comments,
     };
   }
 
@@ -27,22 +27,21 @@ export default class Comment extends Component {
     e.preventDefault();
     Axios.post(
       `http://localhost:3003/api/advert/${this.props.adId}/comments`,
-      {comment: this.state.comment},
+      { comment: this.state.comment },
       this.state.config
     )
       .then((res) => {
         toast.success("Successfully commented");
         this.setState({
-            comment: "",
-            comments: res.data
-        })
+          comment: "",
+          comments: res.data,
+        });
       })
       .catch((err) => {
         console.error(err);
         toast.error("Could not comment! try again");
       });
   };
-
 
   render() {
     return (
@@ -58,14 +57,14 @@ export default class Comment extends Component {
                   <li key={comment._id}>
                     <div className="commenterImage">
                       <img
-                        src="http://placekitten.com/50/50"
+                        src="https://upload.wikimedia.org/wikipedia/commons/thumb/a/ac/No_image_available.svg/480px-No_image_available.svg.png"
                         alt="Commented by"
                       />
                     </div>
                     <div className="commentText">
-                      <p className="">{comment.comment}</p>{" "}
+                      <p className="">{comment.comment}</p>
                       <span className="date sub-text">
-                        on {moment(comment.updatedAt).format('MMMM Do YYYY')}
+                        on {moment(comment.updatedAt).format("MMMM Do YYYY")}
                       </span>
                     </div>
                   </li>
@@ -94,7 +93,7 @@ export default class Comment extends Component {
               </div>
             </form>
           </div>
-          
+
           <div className="form-group">
             <ToastContainer />
           </div>
